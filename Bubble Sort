@@ -1,0 +1,65 @@
+//Bubble Sorting Version 0.3
+//Date : 2/19/2014
+//Copyright © 2014 - Mert Vurgun
+
+#include <iostream>
+
+using namespace std;
+
+void PrintOut(int * curArray, int lenght);		// Displat the current Array
+void Swap(int &val1,int &val2);				// Change values of two variable
+void Sorting(int * curArray, int lenght);		// Sorting the Current Way With BUBBLE Sorting Method
+										// The algorithm is STABLE.
+void main(void)
+{
+	int * Array_1;							// Array Variable
+	int sizeOfArray,i;						// Lenght of Array and counter variables
+
+	cout << "Enter How Many Value You Will Enter : " ;
+	cin >> sizeOfArray ;
+
+	Array_1 = new int[sizeOfArray];			// Create a new pointer with its user decleared length
+
+	cout << endl << "Enter " << sizeOfArray << " Values to sort them correctly" <<endl;
+	for(i=0;i<sizeOfArray;i++)
+		cin >> Array_1[i];					// Initializing of list
+
+	cout << endl << "--------------------- UNSORTED VERSION OF LIST ---------------------" << endl;
+	PrintOut(Array_1,sizeOfArray);			// DisplayS Unsorted Array
+	Sorting(Array_1,sizeOfArray);
+	cout << endl << "--------------------- SORTED VERSION OF LIST ---------------------" << endl;
+	PrintOut(Array_1,sizeOfArray);			// DisplayS Sorted Array
+}
+
+
+void PrintOut(int * curArray, int lenght)		// Displat the current Array
+{
+	int counter;
+	for(counter=0;counter<lenght;counter++)
+		cout << curArray[counter] << "\t" ;
+}
+
+void Swap(int &val1,int &val2)				// Change values of two variable
+{
+	int temp = val1;
+	val1 = val2;
+	val2 = temp;
+}
+
+void Sorting(int * curArray, int lenght)		//Sorting the Current Way With BUBBLE Sorting Method
+{
+	bool controller=false;
+	int counter;
+	while(!controller)
+	{
+		controller = true;
+		for (counter = 0; counter < lenght -1; counter++)
+		{
+			if(curArray[counter] > curArray[counter + 1])
+			{
+				Swap(curArray[counter] , curArray[counter + 1]);	
+				controller = false;
+			}//endif
+		}//endfor
+	}//endwhile
+}//endfunction
