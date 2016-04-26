@@ -1,0 +1,145 @@
+#include <iostream>
+#include <stdlib.h>
+
+using namespace std;
+
+class StackWArray
+{
+private:
+
+	int* stackArr;	//Array is also pointer But I decleared a pointer to Initalize SIZE in Main()
+	int index;	// Hold index of the current Stack
+	int limit;	// End index of The Stack
+	
+public:
+		StackWArray(int x); //Constructor
+		void push(int number);
+		void pop(int &value);
+		bool IsEmpty();
+		bool IsFull();
+		void MakeEmpty();
+		void PrintStack();
+
+};
+
+StackWArray::StackWArray(int x) : stackArr(new int[x]) //Constructor for Declaring array size
+{ 
+	index = 0; 
+	limit = x;
+} 
+
+
+void StackWArray::push(int number) // Add new element to Top Of Stack
+{	
+	stackArr[index] = number;	//Adding new element to array
+	index++; //Incrementing index
+}
+
+void StackWArray::pop(int &value)	// Remove element from Top Of Stack
+{	
+	value = stackArr[--index];		//returning value before popped
+				//decrementing index
+}
+
+bool StackWArray::IsEmpty()
+{
+	if(index<=0)	 // Checking Stack is Empty -> for ARRAY implementation
+	{ return true;	}// If Index of The Stack is lower or equal to limit than There is NO more place to pop
+	else
+	{ return false; }
+
+}
+
+bool StackWArray::IsFull()
+{
+	if(index>=limit)	// Checking Stack is Full -> for ARRAY implementation
+	{return true;}		// If Intex of The Stack is bigger than limit of stack than NO more place to push
+	else
+	{return false;}
+}
+
+void StackWArray::MakeEmpty()	// Removing All Elements From Stack
+{
+	int j;
+		for(j=0;j<=index;j++)	//Declaring all values of stack to NULL
+			stackArr[j] = NULL;
+		cout << "\t\t\tStack Is Now Empty" << endl;
+		index = 0;
+}
+
+void StackWArray::PrintStack()	// Printing the stack from top to bottom
+{
+	int j;
+	cout << " \t\t\tTOP OF STACK " << endl;
+	for(j=index;j>0;j--)
+		cout << "\t\t\t\t" << stackArr[j-1] << endl;
+	cout << " \t\t\tBOTTOM OF STACK " << endl;
+}
+
+void main()
+{
+	int limOfArr,switcher,number;
+	bool OnOff=true;
+	cout << "\t\t\t Enter A limit for Array  :  " ;
+	cin >> limOfArr; // limOfArr is Limit Of Array which will decleare The Array Size
+	StackWArray S1(limOfArr);	//Initialization On Constructor
+	cout << endl << endl;
+	while(OnOff) 
+	{
+	cout << " Enter 1 for PUSH " << endl
+		<< " Enter 2 for POP "  << endl
+		<< " Enter 3 for MAKE THE STACK EMPTY " << endl
+		<< " Enter 0 for EXIT " << endl;
+	cin >> switcher;
+	if(switcher<0 || switcher>3) // Checking other options from user [It is possible]
+	{
+		cout << "\t\t\t PLEASE CHOOSE ANY OPTION FROM ' 0 - 1 - 2 - 3 ' " << endl;
+	}
+	else
+	{
+	switch (switcher)
+	{
+	case 1: // Case 1 for PUSH option. 
+		if(S1.IsFull()==true)	// Check if Stack is full CANNOT PUSH
+	{
+	cout << "\t\t\t The current Stack Is FULL " << endl;
+	}
+		else   // Check if Stack has empty place PUSH
+		{
+		cout << "\t\t Enter A Number for PUSH to the stack  :  " ;
+		cin >> number;	// User declared number will be pushed to the stack
+		S1.push(number);
+		S1.PrintStack();
+		}
+		break;
+	case 2:	// Case 2 for POP option
+		if(S1.IsEmpty()==true)	// Check if Stack has not any element NOT POSSIBLE TO POP
+		{
+			cout << "\t\t\t The Current Stack is EMPTY " << endl;
+		}
+		else // Check if stack has at least one element Start To POPPING
+		{
+		S1.pop(number);
+		cout << "\t\t\t Data : " << number << " POPPED from The Stack " << endl;
+		S1.PrintStack();
+		}
+		break;
+	case 3:	//
+		if(S1.IsEmpty()==true)	// Check if Stack is Empty WARN
+		{
+			cout << "\t\t\t The Current Stack is ALREADY EMPTY " << endl;
+		}
+		else
+		S1.MakeEmpty();
+		break;
+	case 0:		// Exit part of operations // Print Out The Stack Lastly and Close Program
+		S1.PrintStack();
+		OnOff = false;
+	default:
+		break;
+	}
+
+	}
+	}
+}
+
