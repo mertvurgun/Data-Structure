@@ -1,0 +1,167 @@
+#include <iostream>
+
+using namespace std;
+
+class node
+{
+public:
+	node * next;	//Location of the next element in the linked list
+	int data;		// This is the actual data
+	node(int var);	//Constructor
+};
+
+node::node(int var)	//Constructor of node class
+{
+	data = var;
+	next = NULL;
+}
+
+class LinkedList
+{
+private:
+	int size;		// Keep track of how many things have been added to the list
+	node * list;	// This is ACTUAL linked list
+public:
+	LinkedList();	//Constructor of LinkedList class
+	void enqueue(int var);	//Add to REAR
+	void dequeue(int &var);	//Remove from FRONT
+	bool IsEmpty();	//Check if EMPTY
+	bool IsFull();		//Check if FULL
+	void MakeEmpty(); //Remove ALL
+	void printQueue();//Display
+};
+
+LinkedList::LinkedList()		//Constructor of LinkedList class
+{
+	size = 0;		// Nothing has been added to the linkled list
+	list = NULL;	// NULL marker begins in the first position 
+}
+
+void LinkedList::enqueue(int var)
+{
+if (size==0)	// Adding the first element into the link list 
+	{
+			//Because the node constructor	
+		list = new node(var);
+		size++;
+	}
+	else // Adding some later element into the linked list
+	{
+		node * temp=list;
+	while(temp->next!= NULL)	//Find the end of the list
+		{	temp = temp->next;	}
+		temp->next = new node(var);	//Creates a new node at the end of the list
+		size++; //increment size after enqueue
+}
+}
+
+void LinkedList::dequeue(int &var)	//Removing one Node from Front and save its data
+{
+	node * temp = list;
+	var = temp->data;
+	list = temp->next;
+	delete temp;	//remove Node after saved its data
+	size--;	// decrement size after dequeue
+}
+
+bool LinkedList::IsEmpty()
+{
+	if (list == NULL)	// 'list' is first node of linkedlist if it is NULL then queue is empty
+	return true;
+	else
+		return false;
+}
+
+bool LinkedList::IsFull()	//Check is Full *When Dynamic memmory is full it will WARN
+{
+	node * temp ;
+	temp = new node(9999);
+	if(temp==NULL)
+		return true;
+	else
+	return false;
+}
+
+void LinkedList::MakeEmpty()
+{
+	while(IsEmpty()==false)	//Removing every node from front to rear
+	{
+	node * temp = list;	
+	list = temp->next;
+	delete temp;
+	size--;	//Decrement in every step // size will be 0 when queue is EMPTY
+	}
+}
+
+void LinkedList::printQueue()
+{
+	node * temp = list;
+	int i;
+	cout << " FRONT  <-- ";
+	for(i=0;i<size;i++)	//Display All elements of Queue 
+	{
+		cout << temp->data << " <--";			
+		temp = temp->next;	
+	}
+	cout << " REAR " << endl;
+}
+
+void main()
+{
+	bool OnOff=true; //Program start/stop Controller
+	LinkedList Que1;	//queue. as a LList
+	int val,switcher;	
+	while(OnOff)
+	{
+	cout << " Enter 1 For ENQUEUE "<< endl
+		<< " Enter 2 For DEQUEUE " << endl
+		<< " Enter 3 For Make QUE EMPTY "<< endl;
+	cin >> switcher;
+	
+	switch (switcher)
+	{
+	case 1:	// Case 1 for ENQUEUE
+		if(Que1.IsFull()==true)
+		{
+			cout << "\t\t\t QUEUE IS FULL " << endl;
+		}
+		else
+		{
+			cout << "\t\t\t Enter a Value To ENQUEUE :  " ;
+			cin >> val;
+			Que1.enqueue(val);
+			Que1.printQueue();
+		}
+			break;
+	case 2:	// Case 2 for DEQUEUE
+		if(Que1.IsEmpty()==true)
+			cout << "\t\t\t THE CURRENT QUEUE IS EMPTY NOW" << endl;
+		else
+		{
+		Que1.dequeue(val);
+		cout << "\t\t\tData : " << val << " DEQUEUED from Que"<<endl;
+		Que1.printQueue();
+		}
+		break;
+	case 3:	// Case 3 for MAKE QUEUE EMPTY
+		if(Que1.IsEmpty()==true)
+			cout << "\t\t\t THE CURRENT QUEUE IS ALREADY EMPTY" << endl;
+		else
+		{
+		Que1.MakeEmpty();
+		Que1.printQueue();
+			cout << "\t\t\t THE CURRENT QUEUE IS EMPTY NOW" << endl;
+
+		}
+		break;
+	case 0:	// Case 0 for Display QUEUE And EXIT from program
+		OnOff = false;
+		Que1.printQueue();
+	default:
+		break;
+	}
+
+	}
+}
+
+
